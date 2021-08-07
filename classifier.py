@@ -1,7 +1,5 @@
-""" This file contain some functions
-used in classifier.py """
 
-
+# ============================= CHECK WORDS =============================
 punctuation_chars = ["'", '"', ",", ".", "!", ":", ";", '#', '@']
 
 
@@ -49,3 +47,17 @@ def get_neg(sentence):
         if word in negative_words:
             count_neg += 1
     return count_neg
+
+
+# ============================= CLASSIFIER =============================
+with open('project_twitter_data.csv', 'r') as twitter:
+    lines = twitter.readlines()[1:]
+    with open('resulting_data.csv', 'w') as res:
+        header = res.write('Number of Retweets, Number of Replies, Positive Score, Negative Score, Net Score\n')
+        for line in lines:
+            res.write(line.split(',')[1]+', ')
+            res.write(line.strip().split(',')[2]+', ')
+            res.write(str(get_pos(line.split(',')[0]))+', ')
+            res.write(str(get_neg(line.split(',')[0]))+', ')
+            res.write(str(get_pos(line.split(',')[0]) - get_neg(line.split(',')[0])))
+            res.write('\n')
